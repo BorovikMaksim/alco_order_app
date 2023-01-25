@@ -4,39 +4,61 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
 
-
     {% block title %}
         {% if title %}
             <title>Flask - {{ title }}</title>
             {% else %}
             <title>Flask app</title>
         {% endif %}
-
-
     {% endblock title %}
-
+    <style>
+        .header
+        {background-image: url({{url_for('static',filename='images/kod.jpeg')}});
+}
+    </style>
 </head>
 <body>
 
 <div class="wrapper">
 
 {% block menu %}
+    <header class="header">
+        <ul class="main_menu">
+            <li><a href="#"><p>Главная</p></a></li>
+            <li><a href="#"><p>Заявка</p></a></li>
+            <li><a href="#"><p>Регистрация</p></a></li>
+            <li><a href="#"><p>Логин</p></a></li>
+            <li><a href="#"><p>Аккаунт</p></a></li>
+            <li><a href="#"><p>Создать</p></a></li>
+            <li><a href="#"><p>Выход</p></a></li>
+        </ul>
+
+
+    </header>
 
 {% endblock menu %}
 
 
 {% block content %}
-
 {% endblock content %}
 
 
 {% block main_page %}
 
+    <div class="content">
+
+    </div>
 
 {% endblock main_page %}
 
 
+
 {% block footer %}
+
+
+    <footer class="footer">Не факт что все права защищены!<br>
+          &#169; Боровик Максим 2023
+    </footer>
 
 
 {% endblock footer %}
