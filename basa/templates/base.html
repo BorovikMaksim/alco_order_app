@@ -5,28 +5,32 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
 
     {% block title %}
-        {% if title %}
-            <title>Flask - {{ title }}</title>
-            {% else %}
-            <title>Flask app</title>
-        {% endif %}
+    {% if title %}
+    <title>Flask - {{ title }}</title>
+    {% else %}
+    <title>Flask app</title>
+    {% endif %}
     {% endblock title %}
-    <style>
-        .header
-        {background-image: url({{url_for('static',filename='images/kod.jpeg')}});
-}
-    </style>
+
 </head>
 <body>
 
 <div class="wrapper">
+    <div class="logo">
+    <style>
+        .header
+        {background-image: url({{url_for('static',filename='img/kod.jpeg')}});
+}
 
-{% block menu %}
+    </style>
+        <img src="{{ url_for('static', filename='img/logo.png') }}">
+    </div>
+    {% block menu %}
     <header class="header">
         <ul class="main_menu">
-            <li><a href="#"><p>Главная</p></a></li>
+            <li><a href="{{ url_for('main.home') }}"><p>Главная</p></a></li>
             <li><a href="#"><p>Заявка</p></a></li>
-            <li><a href="#"><p>Регистрация</p></a></li>
+            <li><a href="{{ url_for('users.register') }}"><p>Регистрация</p></a></li>
             <li><a href="#"><p>Логин</p></a></li>
             <li><a href="#"><p>Аккаунт</p></a></li>
             <li><a href="#"><p>Создать</p></a></li>
@@ -36,32 +40,31 @@
 
     </header>
 
-{% endblock menu %}
+    {% endblock menu %}
 
 
-{% block content %}
-{% endblock content %}
+    {% block content %}
+    {% endblock content %}
 
 
-{% block main_page %}
+    {% block main_page %}
 
     <div class="content">
 
     </div>
 
-{% endblock main_page %}
+    {% endblock main_page %}
 
 
-
-{% block footer %}
+    {% block footer %}
 
 
     <footer class="footer">Не факт что все права защищены!<br>
-          &#169; Боровик Максим 2023
+        &#169; Боровик Максим 2023
     </footer>
 
 
-{% endblock footer %}
+    {% endblock footer %}
 
 
 </div>

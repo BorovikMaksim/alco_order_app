@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+
+{% block main_page %}
+
+<div class="wrapper">
+
+
+    <div class="info">
+
+        <div class="discription">
+            <p class="names">Доставка алкоголя в любую точку города</p>
+            <div class="desc">
+                <ul class="checkmark">
+                    <li><a href="{{ url_for('main.vodka') }}">Водка</a></li>
+                    <li><a href="{{ url_for('main.whiskey') }}">Виски</a></li>
+                    <li><a href="{{ url_for('main.rom') }}">Ром</a></li>
+                    <li><a href="{{ url_for('main.wine') }}">Вино</a></li>
+                    <li><a href="{{ url_for('main.sparkling_wine') }}">Вино игристое</a></li>
+                    <li><a href="{{ url_for('main.gin') }}">Джин</a></li>
+                    <li><a href="{{ url_for('main.brandy_and_cognac') }}">Бренди и Коньяки</a></li>
+                    <li><a href="{{ url_for('main.liqueurs') }}">Ликеры</a></li>
+                    <li><a href="{{ url_for('main.beer') }}">Пиво</a></li>
+                    <li><a href="{{ url_for('main.other_drinks') }}">Другие Напитки</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+{% endblock main_page %}
