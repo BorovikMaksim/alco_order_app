@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mb-3">Посты пользователя {{ user.username }} ({{ orders.total }})</h1>
+{% for order in orders.items %}
+
+<div class="order">
+
+    <img src="{{ url_for('static', filename='profile_pics/' + order.author.username + '/' + order.author.image_file) }}"
+       alt="" class="mr-3 mt-3 rounded-circle" style="...">
+
+    <a class="mr-2" href="{{ url_for('users.user_orders', username=order.author.username)}}">{{ order.author.username }}</a>
+  <small class = "text-muted">{{ order.date_posted.strftime('%d.%m.%Y-%H.%M') }}</small>
+
+
+
+    <h2><a class="article-title" href="{{ url_for('orders.order', order_id=order.id) }}">{{ order.title }}</a></h2>
+
+    <p class="article-content">{{ order.content }}</p>
+</div>
+
+{% endfor %}
+
+<div class="order_paginate">
+
+    {% for page_num in orders.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=3) %}
+        {% if page_num %}
+            {% if orders.page == page_num %}
+            <a class="btn btn-info mb-4" href="{{ url_for('users.user_orders', username=user.username,page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+            <a class="btn btn-outline-success mb-4" href="{{ url_for('users.user_orders', username=user.username,page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
+        {% else %}
+            ...
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock %}

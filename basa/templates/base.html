@@ -1,8 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+        <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+
+    {% block title %}
+
+    <title>
+        {{ title if title else 'Flask order'}}
+    </title>
+
+    {% endblock title %}
+
+
 </head>
 <body>
 
@@ -18,25 +28,57 @@
     {% block menu %}
     <header class="header">
         <ul class="main_menu">
-            <li><a href="{{ url_for('main.home') }}"><p>Главная</p></a></li>
-            <li><a href="#"><p>Заявка</p></a></li>
-            <li><a href="{{ url_for('users.register') }}"><p>Регистрация</p></a></li>
-            <li><a href="#"><p>Логин</p></a></li>
-            <li><a href="#"><p>Аккаунт</p></a></li>
-            <li><a href="#"><p>Создать</p></a></li>
-            <li><a href="#"><p>Выход</p></a></li>
+
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('main.home') }}"><p>Главная</p></a></li>
+                <li><a href="{{ url_for('main.blog') }}"><p>Заявки</p></a></li>
+                <li><a href="{{ url_for('users.account') }}"><p>Аккаунт</p></a></li>
+                <li><a href="{{ url_for('orders.new_order') }}"><p>Создать</p></a></li>
+                <li><a href="{{ url_for('users.logout') }}"><p>Выход</p></a></li>
+            {% else %}
+                <li><a href="{{ url_for('main.home') }}"><p>Главная</p></a></li>
+                <li><a href="{{ url_for('users.register') }}"><p>Регистрация</p></a></li>
+                <li><a href="{{ url_for('users.login') }}"><p>Войти</p></a></li>
+            {% endif %}
         </ul>
+
 
 
     </header>
 
     {% endblock menu %}
 
+    <div class="content">
+
+
+
+  <main role="main" class="#">
+      <div class="row">
+          <div class="col-md-12">
+          {% with messages = get_flashed_messages(with_categories=True) %}
+
+
+              {% if messages %}
+              {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">
+                  {{ message }}
+              </div>
+              {% endfor %}
+              {% endif %}
+
+              {% endwith %}
+
+
 
     {% block content %}
+        <div class="empty_block"></div>
     {% endblock content %}
+    </div>
+      </div>
 
+    </main>
 
+</div>
     {% block main_page %}
 
     <div class="content">

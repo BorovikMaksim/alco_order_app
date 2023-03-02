@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="create_form" align="center">
+    <form action="" class="form_sign_in" enctype="multipart/form-data" method="POST">
+
+
+        {{ form.hidden_tag() }}
+
+        <legend class="legend">{{ legend }}</legend>
+
+
+        <div class="invalid-feedback">
+            {% for errors in form.title.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.title(class='form-post-title', placeholder='Заголовок') }}
+        </div>
+        <div>
+            {{ form.content(class='form-post-textarea', placeholder='Заявка') }}
+        </div>
+        <div>
+            {{ form.picture }}
+        </div>
+
+        {{ form.submit(class='btn_new_post') }}
+
+    </form>
+</div>
+{% endblock content %}
+

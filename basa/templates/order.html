@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="order">
+  <img src="{{ url_for('static', filename='profile_pics/' + order.author.username + '/' + order.author.image_file) }}"
+       alt="" class="mr-3 mt-3 rounded-circle" style="width:40px">
+
+<a class="mr-2" href="{{ url_for('users.user_orders', username=order.author.username)}}">{{ order.author.username }}</a>
+  <small class = "text-muted">{{ order.date_posted.strftime('%d.%m.%Y-%H.%M') }}</small>
+
+
+
+    <h2 class="article-title">{{ order.title }}</h2>
+    <p class="article-content">{{ order.content }}</p>
+    <img src="{{ image_file }}" alt="order_img">
+  </div>
+
+{% endblock %}

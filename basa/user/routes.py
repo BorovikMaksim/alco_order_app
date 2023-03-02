@@ -1,10 +1,11 @@
-from flask import Blueprint, flash, redirect, url_for, render_template
+from flask import Blueprint, flash,  url_for, render_template, request
 import os
 from datetime import datetime
-from flask_login import current_user,logout_user, login_required
+from flask_login import current_user,logout_user, login_required, login_user
 from basa import bcrypt, db
-from basa.models import User
-from basa.user.forms import RegistrationForm
+from basa.models import User, Order
+from basa.order.routes import orders
+from basa.user.forms import RegistrationForm, LoginForm
 import shutil
 from werkzeug.utils import redirect
 
@@ -15,7 +16,7 @@ users = Blueprint('users', __name__)
 @users.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('main.base'))
+        return redirect(url_for('main.basa'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -34,13 +35,38 @@ def register():
 
 @users.route('/login', methods=['GET', 'POST'])
 def login():
-    return 'Вы вошли'
+    if current_user.is_authenticated:
+        return redirect(url_for('main.basa'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            next_page = request.args.get('next')
+            flash(f'Вы вошли как пользователь {current_user.username}', 'info')
+            return redirect(next_page) if next_page else  redirect(url_for('users.account'))
+        else:
+            flash('Войти не удалось. Проверьте пароль или электронную почту', 'danger')
+    return render_template('login.html',form=form, title='Логин', legend='Войти')
 
 
 @users.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
     return render_template('account.html')
+
+
+
+@users.route('/user/<string:username>')
+@login_required
+def user_orders(username):
+    page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    orders = Order.query.filter_by(author=user) \
+        .order_by(Order.date_posted.desc()) \
+        .paginate(page=page, per_page=3)
+
+    return render_template('user_orders.html', title='Общий блог', orders=orders, user=user)
 
 
 @users.route('/logout')
